@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --background: #04050c;
+  --foreground: #e8f4ff;
+  --glow-primary: 0 0 160px rgba(78, 146, 255, 0.28);
+  --glow-secondary: 0 0 220px rgba(168, 67, 255, 0.2);
+  --grid-line: rgba(124, 138, 199, 0.12);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: radial-gradient(circle at top left, rgba(43, 92, 224, 0.16), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(168, 67, 255, 0.12), transparent 30%), var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont;
+  min-height: 100vh;
+  position: relative;
+  isolation: isolate;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='0.5'%3E%3Cpath d='M0 59.5h120'/%3E%3Cpath d='M59.5 0v120'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.4;
+  mix-blend-mode: screen;
+  z-index: -1;
+}
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsSAAALEgHS3X78AAABWUlEQVRoge3YwUrDQBAF4E8imkAeqFA0x0BtIqnQWig0ahZTXGZAdiU49wcyLdG+kJfJh8HM7uDe3r69rcxYw8lk8nlcx5DZDlYBsZ5B9ynjUpIOgBrG5zIvB6YTGIMAXxg46j0e52TOwD49G4x3i4X0dRh6p03zPsmzPrdt2p0dshgMsN5thnCu68xTKS0AA5h61jzDJqTF2Me6H9lL1/dsicyzC8S0D0IJXHWGcc4XOUb3jLGOTvX4+QziBHGOIMW7M8Y4UGcMA+yo41hiCVxxhSjFNHGOl1HjHGbfmGIJXHWFLMU5cY4rWxRidxxhSjFNHGOl1HjHGbfmGIJXHWFLMU5cY4rWxRidx5h+jJ6XWWr1U5e8CvLZLej3bbd+X7eN25n3mb7bJPLmM2YjxmI8ZjP0B5Tf4DoSSq1m4r2dwAAAABJRU5ErkJggg==");
+  mix-blend-mode: soft-light;
+  opacity: 0.25;
+  z-index: -1;
+}
+
+.orb-gradient {
+  position: absolute;
+  width: clamp(320px, 40vw, 520px);
+  height: clamp(320px, 40vw, 520px);
+  border-radius: 9999px;
+  filter: blur(120px);
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.orb-gradient--blue {
+  top: 10%;
+  right: 16%;
+  background: radial-gradient(circle, rgba(65, 132, 255, 0.9) 0%, transparent 70%);
+}
+
+.orb-gradient--violet {
+  bottom: 12%;
+  left: 18%;
+  background: radial-gradient(circle, rgba(159, 54, 255, 0.65) 0%, transparent 68%);
+}
+
+.mesh-grid {
+  position: absolute;
+  inset: -40% 0 0 0;
+  background:
+    radial-gradient(circle at top, rgba(74, 120, 255, 0.17), transparent 55%),
+    radial-gradient(circle at 10% 30%, rgba(18, 221, 216, 0.2), transparent 45%),
+    repeating-linear-gradient(
+      115deg,
+      transparent 0,
+      transparent 14px,
+      rgba(94, 120, 184, 0.1) 14px,
+      rgba(94, 120, 184, 0.1) 28px
+    );
+  mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.9), transparent 65%);
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(1deg);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  70% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.node-ring {
+  position: relative;
+}
+
+.node-ring::after {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border-radius: inherit;
+  border: 1px solid rgba(138, 181, 255, 0.4);
+  animation: pulse-ring 4.5s ease-in-out infinite;
+}
+
+.edge-gradient {
+  background: linear-gradient(120deg, rgba(61, 115, 255, 0.4), rgba(28, 220, 253, 0.1) 64%, transparent 100%);
+  border: 1px solid rgba(90, 156, 255, 0.25);
+  box-shadow:
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.05),
+    0 24px 60px rgba(38, 111, 255, 0.18);
+}
+
+.edge-gradient--dark {
+  background: linear-gradient(130deg, rgba(9, 12, 24, 0.92), rgba(23, 32, 56, 0.9));
+  border: 1px solid rgba(95, 109, 181, 0.28);
+  box-shadow:
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.03),
+    0 20px 65px rgba(11, 20, 40, 0.6);
+}
+
+.divider-gradient {
+  background: linear-gradient(90deg, transparent, rgba(120, 161, 255, 0.4), transparent);
+  height: 1px;
+  width: 100%;
+}
+
+.badge-glow {
+  box-shadow: inset 0 0 0 1px rgba(108, 199, 255, 0.7), 0 10px 35px rgba(68, 148, 255, 0.35);
+  background: linear-gradient(120deg, rgba(18, 55, 125, 0.7), rgba(13, 96, 151, 0.65));
+}
+
+.pipeline-curve {
+  position: absolute;
+  inset: 12px -140px -90px auto;
+  width: 420px;
+  pointer-events: none;
+}
+
+.pipeline-curve svg path {
+  stroke: rgba(122, 193, 255, 0.26);
+  stroke-width: 2;
+  stroke-dasharray: 6 10;
+  filter: drop-shadow(0 0 8px rgba(122, 193, 255, 0.45));
+}
